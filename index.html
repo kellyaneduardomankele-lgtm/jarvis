@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#05080d" />
+  <title>JARVIS</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <div class="topbar">
+      <div class="brand">
+        <span class="dot"></span>
+        <span>J.A.R.V.I.S.</span>
+      </div>
+      <button id="settingsBtn" class="icon-btn" aria-label="Einstellungen">⚙︎</button>
+    </div>
+
+    <section class="orb-wrap">
+      <div class="rings">
+        <div class="ring ring-1"></div>
+        <div class="ring ring-2"></div>
+        <div class="ring ring-3"></div>
+        <button id="orb" class="orb" aria-label="JARVIS aktivieren">
+          <span class="orb-core"></span>
+        </button>
+      </div>
+
+      <div class="status">
+        <div id="statusText" class="status-title">Bereit</div>
+        <div id="hintText" class="status-sub">Sag „Hey Jarvis“ oder tippe auf den Kreis.</div>
+      </div>
+    </section>
+
+    <section class="speech-panel" aria-live="polite">
+      <div class="label">DU</div>
+      <div id="heardText" class="heard">Noch nichts erkannt.</div>
+
+      <div class="divider"></div>
+
+      <div class="label">JARVIS</div>
+      <div id="jarvisText" class="answer">
+        Guten Morgen, Kellyan. Systeme bereit.
+      </div>
+    </section>
+
+    <form id="textForm" class="input-row">
+      <input
+        id="textInput"
+        autocomplete="off"
+        placeholder="Oder schreibe etwas …"
+        aria-label="Nachricht an JARVIS"
+      />
+      <button type="submit">Senden</button>
+    </form>
+
+    <div class="quick-actions">
+      <button data-prompt="Was ist 24 mal 17?">Mathe</button>
+      <button data-prompt="Erkläre mir das passé composé einfach.">Französisch</button>
+      <button data-prompt="Erkläre mir Present Perfect einfach.">Englisch</button>
+      <button data-prompt="Erkläre mir Nominativ, Akkusativ und Dativ.">Deutsch</button>
+    </div>
+
+    <footer>
+      <span id="micState">Mikrofon: aus</span>
+      <span>JARVIS Basic · GitHub Edition</span>
+    </footer>
+  </main>
+
+  <dialog id="settingsDialog">
+    <form method="dialog" class="settings-card">
+      <div class="settings-head">
+        <h2>Einstellungen</h2>
+        <button class="icon-btn" value="cancel">✕</button>
+      </div>
+
+      <label>
+        Sprache
+        <select id="languageSelect">
+          <option value="de-CH">Deutsch (Schweiz)</option>
+          <option value="de-DE">Deutsch</option>
+          <option value="en-US">English</option>
+          <option value="fr-FR">Français</option>
+        </select>
+      </label>
+
+      <label class="check-row">
+        <input id="voiceToggle" type="checkbox" checked />
+        Antworten vorlesen
+      </label>
+
+      <label class="check-row">
+        <input id="wakeToggle" type="checkbox" checked />
+        Auf „Hey Jarvis“ reagieren
+      </label>
+
+      <p class="small">
+        Der Browser muss geöffnet bleiben. Ein Webseiten-JARVIS kann nicht wie Siri
+        dauerhaft im Hintergrund mithören.
+      </p>
+
+      <button class="save-btn" value="default">Fertig</button>
+    </form>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>

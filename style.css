@@ -1,0 +1,342 @@
+:root {
+  color-scheme: dark;
+  --bg: #03060a;
+  --panel: rgba(10, 19, 29, 0.72);
+  --line: rgba(115, 214, 255, 0.18);
+  --text: #ecfaff;
+  --muted: #8ea8b6;
+  --accent: #6fe8ff;
+  --accent-2: #2fa8ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background:
+    radial-gradient(circle at 50% 28%, rgba(34, 149, 206, 0.12), transparent 30rem),
+    linear-gradient(180deg, #071019 0%, var(--bg) 60%);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  min-height: 100svh;
+}
+
+button, input, select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  width: min(880px, 100%);
+  min-height: 100svh;
+  margin: 0 auto;
+  padding: calc(18px + env(safe-area-inset-top)) 18px calc(18px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  letter-spacing: .2em;
+  font-size: 12px;
+  color: #b9eefe;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 16px var(--accent);
+}
+
+.icon-btn {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.03);
+  color: var(--text);
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+}
+
+.orb-wrap {
+  display: grid;
+  place-items: center;
+  padding: 34px 0 20px;
+}
+
+.rings {
+  position: relative;
+  width: min(72vw, 380px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+}
+
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(111, 232, 255, .25);
+  box-shadow: inset 0 0 36px rgba(111, 232, 255, .05);
+}
+
+.ring-1 { inset: 3%; animation: spin 15s linear infinite; border-style: dashed; }
+.ring-2 { inset: 14%; animation: spinBack 11s linear infinite; border-color: rgba(47,168,255,.3); }
+.ring-3 { inset: 24%; animation: pulse 2.2s ease-in-out infinite; }
+
+.orb {
+  width: 42%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(111,232,255,.42);
+  background:
+    radial-gradient(circle at 42% 35%, rgba(255,255,255,.85), transparent 5%),
+    radial-gradient(circle, rgba(111,232,255,.6) 0%, rgba(47,168,255,.25) 34%, rgba(2,10,18,.95) 72%);
+  box-shadow:
+    0 0 25px rgba(111,232,255,.36),
+    0 0 80px rgba(47,168,255,.2),
+    inset 0 0 30px rgba(111,232,255,.18);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.orb:hover {
+  transform: scale(1.03);
+}
+
+.orb.listening {
+  animation: listening 1.1s ease-in-out infinite;
+}
+
+.orb-core {
+  display: block;
+  width: 28%;
+  height: 28%;
+  border-radius: 50%;
+  margin: auto;
+  background: rgba(225, 252, 255, .88);
+  box-shadow: 0 0 22px var(--accent);
+}
+
+.status {
+  text-align: center;
+  margin-top: -2px;
+}
+
+.status-title {
+  font-size: clamp(20px, 5vw, 32px);
+  font-weight: 650;
+}
+
+.status-sub {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.speech-panel {
+  width: 100%;
+  flex: 1;
+  background: linear-gradient(180deg, rgba(10,20,30,.74), rgba(5,11,17,.82));
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 18px;
+  backdrop-filter: blur(18px);
+  min-height: 190px;
+}
+
+.label {
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: .18em;
+  margin-bottom: 7px;
+}
+
+.heard, .answer {
+  font-size: clamp(16px, 3.5vw, 20px);
+  line-height: 1.45;
+}
+
+.heard {
+  color: #b7c8d1;
+}
+
+.divider {
+  height: 1px;
+  background: var(--line);
+  margin: 17px 0;
+}
+
+.input-row {
+  display: flex;
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.input-row input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255,255,255,.04);
+  color: var(--text);
+  padding: 14px 15px;
+  outline: none;
+}
+
+.input-row input:focus {
+  border-color: rgba(111,232,255,.55);
+  box-shadow: 0 0 0 3px rgba(111,232,255,.08);
+}
+
+.input-row button, .save-btn {
+  border: 1px solid rgba(111,232,255,.3);
+  background: rgba(47,168,255,.16);
+  color: var(--text);
+  border-radius: 16px;
+  padding: 0 18px;
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.quick-actions button {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.03);
+  color: #c5e9f4;
+  padding: 10px 8px;
+  border-radius: 14px;
+  font-size: 12px;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #6e8793;
+  font-size: 11px;
+  padding: 12px 3px 0;
+}
+
+dialog {
+  border: none;
+  border-radius: 24px;
+  padding: 0;
+  color: var(--text);
+  background: transparent;
+}
+
+dialog::backdrop {
+  background: rgba(0,0,0,.72);
+  backdrop-filter: blur(8px);
+}
+
+.settings-card {
+  width: min(440px, calc(100vw - 32px));
+  background: #08121b;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 20px;
+}
+
+.settings-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.settings-head h2 {
+  margin: 0;
+}
+
+.settings-card label {
+  display: grid;
+  gap: 7px;
+  margin-top: 18px;
+  color: #bad0da;
+}
+
+.settings-card select {
+  border: 1px solid var(--line);
+  background: #0b1722;
+  color: var(--text);
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.check-row {
+  grid-template-columns: auto 1fr !important;
+  align-items: center;
+}
+
+.small {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.save-btn {
+  min-height: 44px;
+  width: 100%;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spinBack {
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(.98); opacity: .58; }
+  50% { transform: scale(1.04); opacity: 1; }
+}
+
+@keyframes listening {
+  0%, 100% {
+    box-shadow: 0 0 25px rgba(111,232,255,.36), 0 0 80px rgba(47,168,255,.2);
+  }
+  50% {
+    box-shadow: 0 0 45px rgba(111,232,255,.7), 0 0 115px rgba(47,168,255,.36);
+  }
+}
+
+@media (max-width: 640px) {
+  .app {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .orb-wrap {
+    padding-top: 20px;
+  }
+
+  .quick-actions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  footer {
+    flex-direction: column;
+  }
+}
