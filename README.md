@@ -9,7 +9,16 @@ Ein einfacher persönlicher Browser-Assistent mit:
 - Textfeld
 - einfache Matheaufgaben
 - Grundlagen für Deutsch, Englisch und Französisch
+- lokales Gedächtnis im Browser
 - mobilfreundliches Design
+
+## Gedächtnis
+
+JARVIS kann sich Angaben lokal auf dem Gerät merken. Sage oder schreibe zum
+Beispiel `Merke dir: Mein Lieblingsteam ist ...`. Mit `Was weisst du über mich?`
+liest JARVIS die gespeicherten Angaben vor. Das Gedächtnis lässt sich in den
+Einstellungen bearbeiten oder löschen. Es wird nicht im GitHub-Repository
+veröffentlicht.
 
 ## GitHub Pages veröffentlichen
 

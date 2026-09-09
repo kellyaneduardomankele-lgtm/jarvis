@@ -11,6 +11,34 @@ const settingsDialog = $("settingsDialog");
 const languageSelect = $("languageSelect");
 const voiceToggle = $("voiceToggle");
 const wakeToggle = $("wakeToggle");
+const memoryInput = $("memoryInput");
+const clearMemoryBtn = $("clearMemoryBtn");
+
+const MEMORY_KEY = "jarvis-memory-v1";
+
+function loadMemory() {
+  try {
+    return JSON.parse(localStorage.getItem(MEMORY_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function saveMemory(items) {
+  localStorage.setItem(MEMORY_KEY, JSON.stringify(items));
+  memoryInput.value = items.join("\n");
+}
+
+function remember(note) {
+  const clean = note.trim().replace(/[.!?]+$/, "");
+  if (!clean) return false;
+  const items = loadMemory();
+  if (!items.some(item => item.toLowerCase() === clean.toLowerCase())) {
+    items.push(clean);
+    saveMemory(items);
+  }
+  return true;
+}
 
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -67,6 +95,20 @@ function safeMath(expression) {
 
 function schoolAnswer(text) {
   const t = text.toLowerCase();
+
+  const memoryMatch = text.match(/^(?:bitte\s+)?(?:merk dir|merke dir)\s*[:,]?\s*(.+)$/i);
+  if (memoryMatch) {
+    return remember(memoryMatch[1])
+      ? "Das habe ich mir auf diesem Gerät gemerkt."
+      : "Sag mir bitte, was ich mir merken soll.";
+  }
+
+  if (/was (?:weisst|weißt) du über mich|was hast du dir gemerkt/i.test(t)) {
+    const items = loadMemory();
+    return items.length
+      ? `Ich habe mir gemerkt: ${items.join("; ")}.`
+      : "Ich habe mir noch nichts über dich gemerkt.";
+  }
 
   const mathish =
     /(?:\d|\bplus\b|\bminus\b|\bmal\b|\bgeteilt\b|\bdurch\b|\bhoch\b)/i.test(text);
@@ -238,7 +280,22 @@ document.querySelectorAll(".quick-actions button").forEach(button => {
 });
 
 $("settingsBtn").addEventListener("click", () => {
+  memoryInput.value = loadMemory().join("\n");
   settingsDialog.showModal();
+});
+
+memoryInput.addEventListener("change", () => {
+  const items = memoryInput.value
+    .split("\n")
+    .map(item => item.trim())
+    .filter(Boolean);
+  saveMemory(items);
+});
+
+clearMemoryBtn.addEventListener("click", () => {
+  localStorage.removeItem(MEMORY_KEY);
+  memoryInput.value = "";
+  jarvisText.textContent = "Mein Gedächtnis auf diesem Gerät wurde gelöscht.";
 });
 
 languageSelect.addEventListener("change", () => {

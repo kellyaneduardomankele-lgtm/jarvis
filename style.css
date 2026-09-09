@@ -27,7 +27,7 @@ body {
   min-height: 100svh;
 }
 
-button, input, select {
+button, input, select, textarea {
   font: inherit;
 }
 
@@ -203,6 +203,26 @@ button {
 .input-row input:focus {
   border-color: rgba(111,232,255,.55);
   box-shadow: 0 0 0 3px rgba(111,232,255,.08);
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+  margin-top: 8px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255,255,255,.04);
+  color: var(--text);
+  padding: 12px;
+}
+
+.danger-btn {
+  width: 100%;
+  border: 1px solid rgba(255, 108, 108, .25);
+  border-radius: 14px;
+  background: rgba(255, 108, 108, .08);
+  color: #ffc6c6;
+  padding: 11px;
 }
 
 .input-row button, .save-btn {
