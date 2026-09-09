@@ -42,6 +42,8 @@ function remember(note) {
 
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
 let recognition = null;
 let listening = false;
@@ -182,7 +184,8 @@ function setupRecognition() {
 
   recognition = new SpeechRecognition();
   recognition.lang = languageSelect.value;
-  recognition.continuous = true;
+  // Safari auf iPhone/iPad ist im Dauermodus unzuverlässig.
+  recognition.continuous = !isIOS;
   recognition.interimResults = true;
 
   recognition.onstart = () => {
@@ -247,14 +250,32 @@ function setupRecognition() {
   };
 }
 
-function startListening() {
+async function startListening() {
   if (!recognition) return;
+
+  if (navigator.mediaDevices?.getUserMedia) {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      stream.getTracks().forEach(track => track.stop());
+    } catch {
+      shouldRestart = false;
+      setStatus("Mikrofon blockiert", "Erlaube das Mikrofon in den Website-Einstellungen.");
+      micState.textContent = "Mikrofon: keine Berechtigung";
+      return;
+    }
+  }
+
   shouldRestart = true;
   if (!listening) {
     try {
       recognition.lang = languageSelect.value;
       recognition.start();
-    } catch {}
+    } catch (error) {
+      shouldRestart = false;
+      setStatus("Mikrofon konnte nicht starten", "Öffne Jarvis direkt in Safari und lade die Seite neu.");
+      micState.textContent = "Mikrofon: Start fehlgeschlagen";
+      console.error(error);
+    }
   }
 }
 
